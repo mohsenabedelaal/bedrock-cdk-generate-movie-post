@@ -12,6 +12,7 @@ client_s3 = boto3.client('s3')
 
 def handler(event,context):
     print("Hello from lambda handler")
+    print(event)
     input_prompt = event['prompt']
     response_bedrock = client_bedrock.invoke_model(
     body=json.dumps({
@@ -32,8 +33,8 @@ def handler(event,context):
     response_bedrock_base64 = response_bedrock_byte['artifacts'][0]['base64']
     response_bedrock_finalimage = base64.b64decode(response_bedrock_base64)
     print("response bedrock final image")
-    print(response_bedrock_finalimage)
-    poster_name = f"posterName-{datetime.datetime.today().strftime('%Y-%M-%D-%M-%S')}"
+    # print(response_bedrock_finalimage)
+    poster_name = f"posterName-{datetime.datetime.today().strftime('%Y-%M-%D-%M-%S')}.jpg"
     bucket_name = 'movieposterdesignstorebucket'
     response_s3 = client_s3.put_object(
         Bucket= bucket_name,
@@ -46,6 +47,9 @@ def handler(event,context):
     print("generate presigned")
     print(generate_presigned_url)
     return {
-        'status':200,
-        'body':json.dumps('Hello From Lambda')
+        'statusCode': 200,
+        'body': json.dumps({
+        'url': generate_presigned_url
+    }),
+    'headers': {'Content-Type': 'application/json'}
     }
