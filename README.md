@@ -12,3 +12,6 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app. The build ste
 * `npx cdk synth`        emits the synthesized CloudFormation template
 
 Note to export your ACCOUNT and REGION as environment variables 
+
+## Architecture Drawing
+![image-genAI-project](https://github.com/user-attachments/assets/927b11c0-0b97-464d-9e9d-e7671bea0d9c)
